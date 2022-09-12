@@ -37,6 +37,66 @@ public class HashTableTest
             _table[hashLocation].AddLast(new Node(key, value));
         }
     }
+    
+    public object? Get(string key)
+    {
+        var hashLocation = GetHashKey(key);
+
+        if (!_table[hashLocation].Any())
+        {
+            return null;
+        }
+
+        if (_table[hashLocation].Count == 1)
+            return _table[hashLocation].First?.Value.Value;
+        
+        var node = _table[hashLocation].First;
+
+        while (node != null)
+        {
+            if (node.Value.Key == key)
+            {
+                return node.Value.Value;
+            }
+
+            node = node.Next;
+        }
+
+        return null;
+    }
+    
+    public void Delete(string key)
+    {
+        var hashLocation = GetHashKey(key);
+
+        if (!_table[hashLocation].Any())
+        {
+            return;
+        }
+
+        if (_table[hashLocation].Count == 1)
+        {
+            var linkedListNode = _table[hashLocation].First;
+            
+            if (linkedListNode != null) 
+                _table[hashLocation].Remove(linkedListNode);
+            
+            return;
+        }
+        
+        var node = _table[hashLocation].First;
+
+        while (node != null)
+        {
+            if (node.Value.Key == key)
+            {
+                _table[hashLocation].Remove(node);
+                return;
+            }
+
+            node = node.Next;
+        }
+    }
 
     private int GetHashKey(string key)
     {
