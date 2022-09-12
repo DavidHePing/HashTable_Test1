@@ -15,8 +15,9 @@ public class HashTableTest
     {
         var hashLocation = GetHashKey(key);
 
-        if (!_table[hashLocation].Any())
+        if (_table[hashLocation] == null || !_table[hashLocation].Any())
         {
+            _table[hashLocation] = new LinkedList<Node>();
             _table[hashLocation].AddFirst(new Node(key, value));
         }
         else
@@ -46,9 +47,6 @@ public class HashTableTest
         {
             return null;
         }
-
-        if (_table[hashLocation].Count == 1)
-            return _table[hashLocation].First?.Value.Value;
         
         var node = _table[hashLocation].First;
 
@@ -71,16 +69,6 @@ public class HashTableTest
 
         if (!_table[hashLocation].Any())
         {
-            return;
-        }
-
-        if (_table[hashLocation].Count == 1)
-        {
-            var linkedListNode = _table[hashLocation].First;
-            
-            if (linkedListNode != null) 
-                _table[hashLocation].Remove(linkedListNode);
-            
             return;
         }
         
